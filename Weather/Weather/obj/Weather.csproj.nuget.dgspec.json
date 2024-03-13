@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\DELL\\Desktop\\Weather\\Weather\\Weather.csproj": {}
+    "C:\\Users\\DELL\\Desktop\\Weather_Window\\Weather\\Weather\\Weather.csproj": {}
   },
   "projects": {
-    "C:\\Users\\DELL\\Desktop\\Weather\\Weather\\Weather.csproj": {
+    "C:\\Users\\DELL\\Desktop\\Weather_Window\\Weather\\Weather\\Weather.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\DELL\\Desktop\\Weather\\Weather\\Weather.csproj",
+        "projectUniqueName": "C:\\Users\\DELL\\Desktop\\Weather_Window\\Weather\\Weather\\Weather.csproj",
         "projectName": "Weather",
-        "projectPath": "C:\\Users\\DELL\\Desktop\\Weather\\Weather\\Weather.csproj",
+        "projectPath": "C:\\Users\\DELL\\Desktop\\Weather_Window\\Weather\\Weather\\Weather.csproj",
         "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\DELL\\Desktop\\Weather\\Weather\\obj\\",
+        "outputPath": "C:\\Users\\DELL\\Desktop\\Weather_Window\\Weather\\Weather\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
