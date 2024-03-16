@@ -2,6 +2,19 @@
   "version": 3,
   "targets": {
     "net7.0-windows7.0": {
+      "Nager.Country/4.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/Nager.Country.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Nager.Country.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Newtonsoft.Json/13.0.3": {
         "type": "package",
         "compile": {
@@ -18,6 +31,29 @@
     }
   },
   "libraries": {
+    "Nager.Country/4.0.0": {
+      "sha512": "fxBi2O9KxFT1ndwSJk9suxzCe3YQYT15qHk3a7ZOoxOH5q8IYT+qvYAoZg7ecjUSqZoIKsgL1lJnGegDua0mCA==",
+      "type": "package",
+      "path": "nager.country/4.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "icon.png",
+        "lib/net48/Nager.Country.dll",
+        "lib/net48/Nager.Country.xml",
+        "lib/net6.0/Nager.Country.dll",
+        "lib/net6.0/Nager.Country.xml",
+        "lib/netstandard2.0/Nager.Country.dll",
+        "lib/netstandard2.0/Nager.Country.xml",
+        "lib/netstandard2.1/Nager.Country.dll",
+        "lib/netstandard2.1/Nager.Country.xml",
+        "nager.country.4.0.0.nupkg.sha512",
+        "nager.country.nuspec",
+        "readme.txt"
+      ]
+    },
     "Newtonsoft.Json/13.0.3": {
       "sha512": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
       "type": "package",
@@ -51,6 +87,7 @@
   },
   "projectFileDependencyGroups": {
     "net7.0-windows7.0": [
+      "Nager.Country >= 4.0.0",
       "Newtonsoft.Json >= 13.0.3"
     ]
   },
@@ -93,6 +130,10 @@
       "net7.0-windows7.0": {
         "targetAlias": "net7.0-windows",
         "dependencies": {
+          "Nager.Country": {
+            "target": "Package",
+            "version": "[4.0.0, )"
+          },
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.3, )"
