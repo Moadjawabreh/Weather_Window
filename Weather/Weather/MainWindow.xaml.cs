@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
@@ -7,7 +7,7 @@ namespace Weather
 {
 	public partial class MainWindow : Window
 	{
-		private const string apiKey = "4b8f491d04a1db4cebb5b9bc5ce693bb";
+		private const string apiKey = "";
 
 		public MainWindow()
 		{
@@ -34,7 +34,7 @@ namespace Weather
 		{
 			string weatherInfo = "";
 
-			for (int height = 0; height <= 200; height += 20)
+			for (int height = 0; height <= 2000; height += 200)
 			{
 				using (var client = new HttpClient())
 				{
@@ -318,8 +318,8 @@ namespace Weather
 
 						// Look up the full country name based on the country code
 						string countryName = countryNames.ContainsKey(countryNameCode) ? countryNames[countryNameCode] : "Unknown";
-
-						weatherInfo += $"Country: {countryName}\n";
+						weatherInfo += $"Height = {height}\n";
+                        weatherInfo += $"Country: {countryName}\n";
 						weatherInfo += $"Time: {countryTime.ToString("yyyy-MM-dd HH:mm:ss")}\n";
 						weatherInfo += $"Temperature: {temperature}°C\n";
 						weatherInfo += $"Wind Speed: {windSpeed} m/s\n";
@@ -350,4 +350,128 @@ namespace Weather
 			return cardinalDirections[index % 16];
 		}
 	}
+}*/
+
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Windows;
+
+namespace Weather
+{
+    public partial class MainWindow : Window
+    {
+        private const string apiKey = "c37f32def15e692dfa2ac57acdfd154f";
+
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        private async void GetWeather_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                double longitude = Convert.ToDouble(longitudeTextBox.Text);
+                double latitude = Convert.ToDouble(latitudeTextBox.Text);
+
+                (string locationName, List<WeatherData> weatherDataList) = await GetWeatherData(longitude, latitude);
+
+                weatherInfoTextBlock.Text = $"Location: {locationName}";
+
+                // Clear the existing items in the data grid
+                DataTable.Items.Clear();
+
+                // Add the new weather data to the data grid
+                foreach (var weatherData in weatherDataList)
+                {
+                    DataTable.Items.Add(weatherData);
+                }
+            }
+            catch (Exception ex)
+            {
+                weatherInfoTextBlock.Text = $"Error: {ex.Message}";
+            }
+        }
+
+        private async Task<(string locationName, List<WeatherData> weatherDataList)> GetWeatherData(double longitude, double latitude)
+        {
+            string locationName = "";
+
+            List<WeatherData> weatherDataList = new List<WeatherData>();
+
+            using (var client = new HttpClient())
+            {
+                var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri($"https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon={longitude}&appid={apiKey}&units=metric")
+                };
+
+                HttpResponseMessage response = await client.SendAsync(request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    dynamic data = Newtonsoft.Json.JsonConvert.DeserializeObject(responseBody);
+
+                    locationName = data.city.name;
+
+                    foreach (var forecast in data.list)
+                    {
+                        DateTime forecastTime = DateTimeOffset.FromUnixTimeSeconds((long)forecast.dt).DateTime;
+                        double temperature = forecast.main.temp;
+                        double windSpeed = forecast.wind.speed;
+                        double windDirectionDegrees = (double)forecast.wind.deg;
+                        string weatherDescription = forecast.weather[0].description;
+                        string windDirection = ConvertDegreesToCardinal(windDirectionDegrees);
+
+                        weatherDataList.Add(new WeatherData
+                        {
+                            Longitude = longitude,
+                            Latitude = latitude,
+                            Date = forecastTime,
+                            Temperature = temperature,
+                            WindSpeed = windSpeed,
+                            WindDirection = windDirection,
+                            WeatherDescription = weatherDescription
+                        });
+                    }
+                }
+                else
+                {
+                    throw new Exception($"Failed to retrieve weather data. Status code: {response.StatusCode}");
+                }
+            }
+
+            return (locationName, weatherDataList);
+        }
+
+
+        private string ConvertDegreesToCardinal(double degrees)
+        {
+            string[] cardinalDirections = {
+                "North", "North-Northeast", "Northeast", "East-Northeast",
+                "East", "East-Southeast", "Southeast", "South-Southeast",
+                "South", "South-Southwest", "Southwest", "West-Southwest",
+                "West", "West-Northwest", "Northwest", "North-Northwest"
+            };
+
+            int index = (int)Math.Round((degrees % 360) / 22.5);
+            return cardinalDirections[index % 16];
+        }
+    }
+
+    public class WeatherData
+    {
+        public double Longitude { get; set; }
+        public double Latitude { get; set; }
+        public DateTime Date { get; set; }
+        public double Temperature { get; set; }
+        public double WindSpeed { get; set; }
+        public string WindDirection { get; set; }
+        public string WeatherDescription { get; set; }
+    }
 }
+

@@ -5,30 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Weather"
         mc:Ignorable="d"
-        Title="Weather App" Height="300" Width="450">
-
-    <Grid Background="#F4F4F4">
+        Title="Weather Forecast" Height="450" Width="800">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Enter Longitude:" Margin="10"/>
-        <TextBox x:Name="longitudeTextBox" Grid.Row="1" Margin="10" Padding="10" Width="300" VerticalAlignment="Center" Background="#EAEAEA" BorderBrush="#C8C8C8" BorderThickness="1"/>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="2" Text="Enter Latitude:" Margin="10"/>
-        <TextBox x:Name="latitudeTextBox" Grid.Row="3" Margin="10" Padding="10" Width="300" VerticalAlignment="Center" Background="#EAEAEA" BorderBrush="#C8C8C8" BorderThickness="1"/>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Latitude:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                <TextBox x:Name="latitudeTextBox" Width="100" VerticalAlignment="Center"/>
+                <TextBlock Text="Longitude:" VerticalAlignment="Center" Margin="10,0,5,0"/>
+                <TextBox x:Name="longitudeTextBox" Width="100" VerticalAlignment="Center"/>
+                <Button Content="Get Weather" Click="GetWeather_Click" Margin="10,0,0,0"/>
+                <TextBlock x:Name="weatherInfoTextBlock" Grid.Row="2" Margin="5" TextWrapping="Wrap"/>
 
-        <Button Content="Get Weather" Grid.Row="4" Margin="10" Click="GetWeather_Click" HorizontalAlignment="Center" Padding="10" Background="#007ACC" Foreground="White" BorderThickness="0" FontWeight="Bold" FontSize="14"/>
+            </StackPanel>
 
-        <Border Grid.Row="5" BorderThickness="1" BorderBrush="#C8C8C8" Margin="10" Padding="10" Background="White">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <TextBlock x:Name="weatherInfoTextBlock" Margin="0"/>
-            </ScrollViewer>
-        </Border>
+        </Grid>
+
+        <DataGrid x:Name="DataTable" Grid.Row="1" AutoGenerateColumns="False" Margin="5">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="*" />
+                <DataGridTextColumn Header="Temperature (°C)" Binding="{Binding Temperature}" Width="*" />
+                <DataGridTextColumn Header="Wind Speed (m/s)" Binding="{Binding WindSpeed}" Width="*" />
+                <DataGridTextColumn Header="Wind Direction" Binding="{Binding WindDirection}" Width="*" />
+                <DataGridTextColumn Header="Weather Description" Binding="{Binding WeatherDescription}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>
